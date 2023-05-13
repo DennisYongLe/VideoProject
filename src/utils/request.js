@@ -1,7 +1,7 @@
 import axios from "axios";
 const instance = axios.create({
   // baseURL: ,
-  timeout: 10000,
+  timeout: 20000,
   responseType: "json",
   withCredentials: false, // 表示跨域请求时是否需要使用凭证
 });
@@ -58,6 +58,7 @@ export const getWithoutToken = (url, params = {}) => {
       );
   });
 };
+// export const getCollections = (url,)
 export const getVideoAndUpInfo = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance
@@ -88,6 +89,27 @@ export const post = (url, data = {}) => {
         (respnse) => {
           // console.log(respnse.data);
           resolve(respnse.data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+export const postVideoLike = (url, params = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(url, params, {
+        headers: {
+          token: localStorage.getItem("usertoken"),
+          "Content-Type": "application/json",
+        },
+        body: { videoId: params.videoId, groupId: params.groupId },
+      })
+      .then(
+        (respnse) => {
+          console.log(respnse);
+          resolve(respnse);
         },
         (err) => {
           reject(err);

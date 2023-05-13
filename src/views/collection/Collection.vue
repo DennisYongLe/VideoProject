@@ -6,15 +6,7 @@
         <div class="login-tab-item active">添加到收藏夹</div>
       </div>
 
-      <UserCollectionGroups />
-      <div class="login-buttom">
-        <input
-          class="login-login-button"
-          value="确定"
-          @click="handleLogin"
-          type="button"
-        />
-      </div>
+      <UserCollectionGroups :videoId="videoId" />
     </div>
     <span class="wrapper__bili-mini-close-icon iconfont" @click="close"
       >&#xe612;</span
@@ -25,12 +17,18 @@
 import Toast, { useToastEffect } from "../../components/Toast.vue";
 import store from "@/store";
 import UserCollectionGroups from "./CollectionGroups";
+// import { watch } from "vue";
+
 export default {
   name: "Collection",
+  props: ["videoId"],
   components: { Toast, UserCollectionGroups },
 
-  setup() {
+  setup(props) {
     const { toastData } = useToastEffect();
+    // watch(props.videoId, (newValue, oldValue) => {
+    //   console.log("changed");
+    // });
 
     const close = function () {
       store.commit("closeIsShowCollect");
@@ -61,24 +59,6 @@ export default {
   height: 30rem;
   // flex-shrink: 0;
 
-  .login-buttom {
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .login-login-button {
-      width: 16rem;
-      height: 4rem;
-      background-color: #1890ff;
-      margin-top: 1.8rem;
-      cursor: pointer;
-      color: #ffffff;
-      border-radius: 4px;
-      font-size: 1.4rem;
-      border: none;
-    }
-  }
   &__bili-mini-login-right-wp {
     width: 90%;
     height: 65%;

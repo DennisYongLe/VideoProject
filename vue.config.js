@@ -4,7 +4,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        target: "http://50356926.r3.cpolar.top", // 接口地址
+        target: "http://10.241.29.114:15005", // 接口地址
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           // 转发

@@ -1,14 +1,14 @@
 <template>
   <Toast v-if="toastData.showToast" :toastMessage="toastData.toastMessage" />
   <div class="wrapper" v-show="store.state.isShowLogin">
-    <img
+    <!-- <img
       class="leftDown-open-pic"
       src="https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/22_open.4ea5f239.png"
     />
     <img
       class="rightDown-open-pic"
       src="https://s1.hdslb.com/bfs/seed/jinkela/short/mini-login-v2/img/33_open.f7d7f655.png"
-    />
+    /> -->
     <div class="wrapper__login-scan-wp"></div>
     <div class="wrapper__bili-mini-content-wp"><div class="line"></div></div>
     <div class="wrapper__bili-mini-login-right-wp">

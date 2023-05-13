@@ -1,5 +1,5 @@
 <template>
-  <Collection />
+  <Suspense> <Collection :videoId="videoId" /></Suspense>
   <div class="left">
     <h4>{{ leftInfo.title }}</h4>
     <div class="left__subtitle">
@@ -26,6 +26,7 @@
 import { ref } from "vue";
 import getVideoInfo from "../user/videoEffect";
 import Collection from "../collection/Collection.vue";
+
 import store from "@/store";
 export default {
   name: "videomoddle",
@@ -33,9 +34,13 @@ export default {
   async setup() {
     const { result } = await getVideoInfo();
     const leftInfo = ref(result.data);
+    // 不加ref其实也可以被子元素获取到，但为什么leftInfo写到组件里通过leftInfo.value.id就不可以传过去呢？
+    const videoId = ref(leftInfo.value.id);
+
     const videoSRC = ref("/api/video-slices?url=" + leftInfo.value.url);
+
     const userToken = store.state.userToken;
-    const changeIsShowCollect = function () {
+    const changeIsShowCollect = async function () {
       if (userToken) {
         store.commit("changeIsShowCollect");
       } else {
@@ -43,7 +48,7 @@ export default {
       }
     };
 
-    return { leftInfo, videoSRC, changeIsShowCollect };
+    return { videoId, leftInfo, videoSRC, changeIsShowCollect };
   },
 };
 </script>
