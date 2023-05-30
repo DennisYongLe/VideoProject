@@ -96,6 +96,37 @@ export const post = (url, data = {}) => {
       );
   });
 };
+export const postVideos = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("usertoken"),
+        },
+        body: {
+          url: data.url,
+          title: data.title,
+          thumbnail: data.thumbnail,
+          duration: data.duration,
+          type: data.type,
+          area: data.area,
+          videoTagList: data.videoTagList,
+          description: data.description,
+        },
+      })
+      .then(
+        (respnse) => {
+          // console.log(respnse.data);
+          resolve(respnse.data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+
 export const postVideoLike = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance
@@ -110,6 +141,61 @@ export const postVideoLike = (url, params = {}) => {
         (respnse) => {
           console.log(respnse);
           resolve(respnse);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+// export const getDanmu = (url, params = {}) => {
+//   return new Promise((resolve, reject) => {
+//     instance
+//       .get(url, {
+//         params: { videoId: params.videoId },
+//       })
+//       .then(
+//         (respnse) => {
+//           resolve(respnse);
+//         },
+//         (err) => {
+//           reject(err);
+//         }
+//       );
+//   });
+// };
+export const getDanmu = (url, params = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .get(url, {
+        params: { videoId: params.videoId },
+        headers: {
+          responseType: "arraybuffer",
+        },
+      })
+      .then(
+        (respnse) => {
+          resolve(respnse.data.data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+export const postVideoFile = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(url, data, {
+        headers: {
+          // "Content-Type": "application/json",
+          token: localStorage.getItem("usertoken"),
+        },
+      })
+      .then(
+        (respnse) => {
+          // console.log(respnse.data);
+          resolve(respnse.data);
         },
         (err) => {
           reject(err);

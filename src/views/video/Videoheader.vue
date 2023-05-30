@@ -32,9 +32,14 @@
           </template>
         </li>
       </ul>
+      <ul class="right-entry">
+        <li class="header-upload-entry__text">
+          <router-link :to="`/uploadVideo`" class="unit">
+            <div class="header-login-upload">投稿</div>
+          </router-link>
+        </li>
+      </ul>
     </div>
-    <div class="i_cecream__bili-header__banner"></div>
-    <div class="i_cecream__bili-header__channel"></div>
   </div>
   <Login />
 </template>
@@ -43,6 +48,7 @@ import store from "@/store";
 import Login from "../login/Login.vue";
 import getUserImage from "../user/userEffect";
 import { toRef, ref, watch } from "vue";
+const uploadVideo = function () {};
 
 const useUserEffect = function () {
   // const { userToken: login } = toRefs(store.state);
@@ -58,7 +64,7 @@ const useUserEffect = function () {
   watch([login], async () => {
     imgSRC.value = await getUserImage();
   });
-  return { login, clickLogin, imgSRC };
+  return { login, clickLogin, imgSRC, uploadVideo };
 };
 export default {
   name: "videoheader",
@@ -119,6 +125,25 @@ export default {
             width: 100%;
             height: auto;
             border-radius: 50%;
+          }
+        }
+        .header-upload-entry__text {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #fb7299;
+          font-size: 1.4rem;
+          cursor: pointer;
+          border-radius: 8px;
+          width: 9rem;
+          height: 3.4rem;
+          margin-left: 1.6rem;
+          line-height: 2rem;
+          transition: background-color 0.3s;
+
+          .header-login-upload {
+            text-decoration: none;
+            color: #fff;
           }
         }
       }

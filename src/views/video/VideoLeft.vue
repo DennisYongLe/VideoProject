@@ -1,13 +1,18 @@
 <template>
   <Suspense> <Collection :videoId="videoId" /></Suspense>
+
   <div class="left">
     <h4>{{ leftInfo.title }}</h4>
     <div class="left__subtitle">
       <span class="dm item">视频时长：{{ leftInfo.duration }}min</span>
-      <!-- <span class="pudate item">2023-05-05 20:07:24 </span> -->
-      <!-- <span class="text item">未经作者授权，禁止转载</span> -->
     </div>
-    <video controls class="left__video-wrap" :src="videoSRC" />
+    <!-- <vue-danmaku
+      v-model:danmus="danmus"
+      v-model:loop="loop"
+      loop="true"
+    ></vue-danmaku> -->
+    <VideoPlayer :videoSrc="videoSRC" :videoId="videoId" />
+    <!-- <video controls class="left__video-wrap" :src="videoSRC" /> -->
     <div class="video-toolbar-v1">
       <span class="video-toolbar-v1__like active"
         >点赞{{ leftInfo.openrationCount.likes }}</span
@@ -26,11 +31,14 @@
 import { ref } from "vue";
 import getVideoInfo from "../user/videoEffect";
 import Collection from "../collection/Collection.vue";
-
 import store from "@/store";
+// import vueDanmaku from "vue3-danmaku";
+import VideoPlayer from "./VideoPlayer.vue";
 export default {
   name: "videomoddle",
-  components: { Collection },
+  // components: { Collection, vueDanmaku, VideoPlayer },
+  components: { Collection, VideoPlayer },
+
   async setup() {
     const { result } = await getVideoInfo();
     const leftInfo = ref(result.data);
@@ -47,12 +55,27 @@ export default {
         store.commit("changeIsShowLogin");
       }
     };
-
-    return { videoId, leftInfo, videoSRC, changeIsShowCollect };
+    const danmus = ref(["danmu1", "danmu2", "danmu3", "danmu3", "..."]);
+    const loop = true;
+    return {
+      videoId,
+      leftInfo,
+      videoSRC,
+      changeIsShowCollect,
+      danmus,
+      loop,
+    };
   },
 };
 </script>
 <style scoped lang="scss">
+.vue-danmaku {
+  position: relative;
+  margin-bottom: -100px;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.274);
+}
 .left {
   flex: 0 0 75%;
   &__subtitle {

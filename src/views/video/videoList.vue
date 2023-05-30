@@ -31,7 +31,7 @@ import { getWithoutToken } from "@/utils/request";
 const videoInfoEffect = function () {
   const getvideoInfo = async function () {
     const result = await getWithoutToken("/api/videos", {
-      size: 1,
+      size: 100,
       no: 1,
       area: 1,
     });
@@ -45,47 +45,11 @@ export default {
     const { getvideoInfo } = videoInfoEffect();
     const result = await getvideoInfo();
     let videoInfo = ref(result.data.list);
-    // let data = reactive({
-    //   showList: [
-    //     {
-    //       id: "1",
-    //       unit__img:
-    //         "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-    //       card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-    //       card__info__bottom: "4万点赞 zyl2012",
-    //     },
-    //     {
-    //       id: "2",
-    //       unit__img:
-    //         "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-    //       card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-    //       card__info__bottom: "4万点赞 zyl2012",
-    //     },
-    //     {
-    //       id: "3",
-    //       unit__img:
-    //         "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-    //       card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-    //       card__info__bottom: "4万点赞 zyl2012",
-    //     },
-    //     {
-    //       id: "4",
-    //       unit__img:
-    //         "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-    //       card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-    //       card__info__bottom: "4万点赞 zyl2012",
-    //     },
-    //     {
-    //       id: "5",
-    //       unit__img:
-    //         "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-    //       card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-    //       card__info__bottom: "4万点赞 zyl2012",
-    //     },
-    //   ],
-    // });
-    // const { showList } = toRefs(data);
+
     const showList = videoInfo.value;
+    for (const a of showList) {
+      console.log(a);
+    }
     return { showList };
   },
 };
@@ -111,7 +75,9 @@ export default {
     grid-template-rows: repeat(4, 1fr);
     grid-gap: 2rem;
     position: relative;
+
     .unit {
+      min-width: 25.5rem;
       margin-top: 1.2rem;
       background-color: white;
       z-index: 1;

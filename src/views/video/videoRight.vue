@@ -253,6 +253,7 @@ export default {
         height: 4rem;
       }
       &__right {
+        min-width: 10rem;
         margin-left: 1rem;
         flex: 1;
         .fontstyle {

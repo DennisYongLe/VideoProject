@@ -136,7 +136,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  z-index: 8;
+  z-index: 100;
   padding: 5.2rem 6.5rem 2.9rem 9.2rem;
   position: absolute;
   top: 50%;

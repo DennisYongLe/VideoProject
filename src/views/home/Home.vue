@@ -9,7 +9,7 @@ import VideoListVue from "../video/videoList.vue";
 
 export default {
   name: "Home",
-  components: { Videoheader, VideoListVue },
+  components: { VideoListVue, Videoheader },
   setup() {},
 };
 </script>

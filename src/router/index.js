@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 // import store from "@/store";
 import { get } from "../utils/request";
 const getUsersInfoEffect = function () {
-  const userToken = localStorage.getItem("usertoken");
+  let userToken = localStorage.getItem("usertoken");
 
   const getusersInfo = async function () {
     if (userToken) {
@@ -10,6 +10,7 @@ const getUsersInfoEffect = function () {
 
       return result;
     } else {
+      userToken = "";
       console.log("token过期,需要重新登陆");
     }
   };
@@ -48,6 +49,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/login/Login.vue"),
     beforeEnter(to, from, next) {},
+  },
+  {
+    path: "/uploadVideo",
+    name: "UploadVideo",
+    component: () =>
+      import(
+        /* webpackChunkName: "UploadVideo" */ "../views/upload/Upload.vue"
+      ),
   },
 ];
 const router = createRouter({
