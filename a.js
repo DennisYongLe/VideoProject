@@ -3,6 +3,7 @@
  * @param {number} k
  * @return {number[]}
  */
+// 臭宝最近忙的都不理我
 let maxSlidingWindow = function (nums, k) {
   let left = 0;
   let result = [];
