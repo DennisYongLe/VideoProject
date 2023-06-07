@@ -5,6 +5,19 @@ const instance = axios.create({
   responseType: "json",
   withCredentials: false, // 表示跨域请求时是否需要使用凭证
 });
+export const getComment = (url, params = {}) => {
+  return new Promise((resolve, reject) => {
+    instance.get(url, { params }).then(
+      (respnse) => {
+        // resolve(respnse.data?.data?.userInfo?.avatar);
+        resolve(respnse.data);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
 export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance

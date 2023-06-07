@@ -6,11 +6,7 @@
     <div class="left__subtitle">
       <span class="dm item">视频时长：{{ leftInfo.duration }}min</span>
     </div>
-    <!-- <vue-danmaku
-      v-model:danmus="danmus"
-      v-model:loop="loop"
-      loop="true"
-    ></vue-danmaku> -->
+
     <VideoPlayer :videoSrc="videoSRC" :videoId="videoId" />
     <!-- <video controls class="left__video-wrap" :src="videoSRC" /> -->
     <div class="video-toolbar-v1">
@@ -25,6 +21,7 @@
         >收藏{{ leftInfo.openrationCount.collections }}</span
       >
     </div>
+    <Suspense><Videocomment /></Suspense>
   </div>
 </template>
 <script>
@@ -32,12 +29,11 @@ import { ref } from "vue";
 import getVideoInfo from "../user/videoEffect";
 import Collection from "../collection/Collection.vue";
 import store from "@/store";
-// import vueDanmaku from "vue3-danmaku";
 import VideoPlayer from "./VideoPlayer.vue";
+import Videocomment from "./VideoComment.vue";
 export default {
   name: "videomoddle",
-  // components: { Collection, vueDanmaku, VideoPlayer },
-  components: { Collection, VideoPlayer },
+  components: { Collection, VideoPlayer, Videocomment },
 
   async setup() {
     const { result } = await getVideoInfo();

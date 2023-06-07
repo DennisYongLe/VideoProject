@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>视频网站风格的二级评论样式</title>
+    <style>
+      .wrapper {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+
+      .comment-container {
+        max-width: 600px;
+        margin: 20px auto;
+      }
+
+      .comment {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      .comment-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #ddd;
+        margin-right: 10px;
+      }
+
+      .comment-content {
+        flex: 1;
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 10px;
+      }
+
+      .comment-text {
+        margin-bottom: 5px;
+      }
+
+      .comment-author {
+        font-weight: bold;
+      }
+
+      .reply {
+        margin-left: 50px;
+        padding-left: 10px;
+        border-left: 2px solid #ddd;
+      }
+
+      .reply-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin-right: 10px;
+      }
+
+      .reply-content {
+        background-color: #f8f8f8;
+        border-radius: 6px;
+        padding: 8px;
+      }
+
+      .reply-text {
+        margin-bottom: 3px;
+      }
+
+      .reply-author {
+        font-weight: bold;
+      }
+
+      .video-container {
+        width: 100%;
+        height: 400px;
+        background-color: #000;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="comment-container">
+        <div class="comment">
+          <div class="comment-avatar"></div>
+          <div class="comment-content">
+            <p class="comment-text">
+              <span class="comment-author">用户1：</span>
+              这是一条评论。
+            </p>
+            <div class="reply">
+              <div class="reply-avatar"></div>
+              <div class="reply-content">
+                <p class="reply-text">
+                  <span class="reply-author">用户2：</span>
+                  这是回复1。
+                </p>
+              </div>
+            </div>
+            <div class="reply">
+              <div class="reply-avatar"></div>
+              <div class="reply-content">
+                <p class="reply-text">
+                  <span class="reply-author">用户3：</span>
+                  这是回复2。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comment">
+          <div class="comment-avatar"></div>
+          <div class="comment-content">
+            <p class="comment-text">
+              <span class="comment-author">用户4：</span>
+              这是另一条评论。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

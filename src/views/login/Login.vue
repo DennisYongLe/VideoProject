@@ -63,7 +63,6 @@ import JSEncrypt from "jsencrypt";
 import store from "@/store";
 // 处理登录逻辑
 const useLoginEffect = (showToast) => {
-  const router = useRouter();
   const data = reactive({
     phone: "",
     password: "",
@@ -88,7 +87,6 @@ const useLoginEffect = (showToast) => {
         store.commit("saveUserToken", { token: result.data });
         // 关闭登录框
         store.commit("closeLogin");
-        router.push({ name: "Home" });
       } else {
         console.log("登录失败");
         showToast("登录失败");

@@ -3,7 +3,9 @@
     <div class="i_cecream__bili-header__bar">
       <ul class="left-entry">
         <li>logo</li>
-        <li>首页</li>
+        <router-link :to="`/`" class="unit">
+          <li>首页</li>
+        </router-link>
         <li>番剧</li>
         <li>直播</li>
         <li>游戏中心</li>
@@ -44,28 +46,9 @@
   <Login />
 </template>
 <script>
-import store from "@/store";
 import Login from "../login/Login.vue";
 import getUserImage from "../user/userEffect";
-import { toRef, ref, watch } from "vue";
-const uploadVideo = function () {};
-
-const useUserEffect = function () {
-  // const { userToken: login } = toRefs(store.state);
-  const login = toRef(store.state, "userToken");
-
-  const imgSRC = ref("");
-  // const login = localStorage.getItem("userToken");
-  const clickLogin = function () {
-    store.commit("changeIsShowLogin");
-  };
-  // 获取用户头像
-  // 登录后token变化，立即显示照片
-  watch([login], async () => {
-    imgSRC.value = await getUserImage();
-  });
-  return { login, clickLogin, imgSRC, uploadVideo };
-};
+import useUserEffect from "../user/useUserEffect";
 export default {
   name: "videoheader",
   components: { Login },
@@ -106,6 +89,16 @@ export default {
         color: white;
         font-weight: 40rem;
         flex-shrink: 0;
+        a {
+          text-decoration: none;
+          color: white;
+          font-size: 1.4rem;
+          font-weight: 40rem;
+        }
+        .router-link-active {
+          color: white;
+          text-decoration: none;
+        }
       }
 
       .right-entry {
@@ -142,8 +135,13 @@ export default {
           transition: background-color 0.3s;
 
           .header-login-upload {
-            text-decoration: none;
             color: #fff;
+          }
+          a {
+            text-decoration: none;
+          }
+          .router-link-active {
+            text-decoration: none;
           }
         }
       }

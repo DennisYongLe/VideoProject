@@ -1,4 +1,5 @@
 <template>
+  <Toast v-if="toastData.showToast" :toastMessage="toastData.toastMessage" />
   <div class="wrapper">
     <div class="microapp">
       <div class="microapp__uploadForm">
@@ -17,10 +18,7 @@
 
     <div class="microapp">
       <span class="microapp__model">类型</span>
-      <!-- <input type="radio" id="self" value="self" v-model="type" />
-      <label for="self">自制</label>
-      <input type="radio" id="other" value="other" v-model="type" />
-      <label for="other">转载</label> -->
+
       <div>
         <input type="radio" id="self" name="type" value="1" v-model="types" />
         <label for="self">自制</label>
@@ -64,18 +62,15 @@
       />
     </div>
   </div>
-  {{ title }}
-  {{ types }}
-  {{ label }}
-  {{ selected }}
-  {{ text }}
 </template>
 <script>
+import Toast, { useToastEffect } from "../../components/Toast.vue";
 import { postVideoFile, postVideos } from "../../utils/request";
 const SIZE = 10 * 1024 * 1024; // 切片大小（1MB）
 // const SIZE = 10 * 1024; // 切片大小（10MB）
 
 export default {
+  components: { Toast },
   data: () => ({
     // 存放文件信息
     container: {
@@ -89,6 +84,7 @@ export default {
     selected: "",
     label: "",
     text: "",
+    toastData: {},
   }),
   methods: {
     // 获取上传文件
@@ -130,12 +126,10 @@ export default {
 
     // 切片加工（上传前预处理 为文件添加hash等）
     async handleUpload() {
-      // 判断输入均不为空
-      //   title: "",
-      // types: " ",
-      // selected: "",
-      // label: "",
-      // text: "",
+      const { toastData, showToast } = useToastEffect();
+      this.toastData = toastData;
+      showToast("开始上传");
+
       if (
         this.title === "" ||
         this.types === "" ||
@@ -143,10 +137,8 @@ export default {
         this.label === "" ||
         this.text === ""
       ) {
-        console.log("some value is not appear here");
+        showToast("some value is not appear here");
       } else {
-        console.log("ok prepare to send");
-
         if (!this.container.file) return;
         // 切片生成
         const fileChunkList = this.createFileChunk(this.container.file);
@@ -166,17 +158,14 @@ export default {
 
     // 上传切片
     async uploadChunks() {
-      // const uploadRequest = function (formData) {
-      //   // console.log(formData);
+      const { toastData, showToast } = useToastEffect();
+      this.toastData = toastData;
 
-      //   console.log("send upload request");
-      // };
       const sliceData = this.data;
       const totalSliceNo = this.data.length;
       const fileName = this.container.file.name;
       const title = this.title;
       const text = this.text;
-      //   const requesstList = [];
 
       // eslint-disable-next-line no-unused-expressions
       !(async function () {
@@ -185,9 +174,7 @@ export default {
           // 以后这样
           console.log(fileName);
 
-          const slice = new File([i.chunk], fileName, {
-            // type: "video/mp4",
-          });
+          const slice = new File([i.chunk], fileName, {});
 
           const formData = new FormData();
           // formData.append("fileMd5", i.hash.split("-")[0]);
@@ -211,6 +198,7 @@ export default {
               description: text,
             };
             const result2 = await postVideos("/api//videos", postData);
+            showToast("上传成功，您可以返回查看");
             console.log(result2);
           } else {
             await postVideoFile("/api//file-slices", formData);
