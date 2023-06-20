@@ -21,7 +21,7 @@
               @click="
                 showReply(
                   comment.userInfo.id,
-                  comment.userInfo.id,
+                  comment.userInfo.userId,
                   comment.userInfo.nick,
                   index,
                   true
@@ -36,15 +36,15 @@
             :key="replyIndex"
           >
             <div class="reply">
-              <!-- <img
+              <img
                 class="reply-avatar"
                 :src="`/api/users-avatar?url=${reply.replyUserInfo.avatar}`"
-              /> -->
+              />
               <div class="reply-content">
                 <p class="reply-text">
-                  <!-- <span class="reply-author"> {{ reply.userInfo.nick }}：</span> -->
+                  <span class="reply-author"> {{ reply.userInfo.nick }}：</span>
                   <template v-if="reply.replyUserId">
-                    <!-- @{{ reply.replyUserInfo.nick }}  -->{{ reply.comment }}
+                    @{{ reply.replyUserInfo.nick }} {{ reply.comment }}
                   </template>
                   <template v-else>
                     {{ reply.comment }}
@@ -72,11 +72,11 @@
                   @addCom="addCom"
                   v-show="true"
                   :showReplyId="showReplyId"
-                  :replyId="reply.replyUserInfo.id"
+                  :replyId="reply.userInfo.userId"
                   :replyNick="replyNick"
                   :isTop="false"
                   :videoId="videoId"
-                  :replyUserId="reply.replyUserInfo.userId"
+                  :replyUserId="reply.userInfo.userId"
                   :rootId="comment.id"
                 />
               </template>
