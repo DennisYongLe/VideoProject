@@ -1,8 +1,5 @@
 <template>
-  <Suspense> <Videoheader /></Suspense>
-
   <div class="wrap">
-    <!-- <div class="header">header</div> -->
     <div class="container">
       <Suspense><VideoLeft /></Suspense>
       <Suspense><VideoRight /></Suspense>
@@ -10,12 +7,11 @@
   </div>
 </template>
 <script>
-import Videoheader from "./Videoheader.vue";
 import VideoRight from "./videoRight.vue";
 
 import VideoLeft from "./VideoLeft.vue";
 export default {
-  components: { Videoheader, VideoRight, VideoLeft },
+  components: { VideoRight, VideoLeft },
   setup() {},
 };
 </script>

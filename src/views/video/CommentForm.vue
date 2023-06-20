@@ -1,7 +1,7 @@
 <template>
   <form
     class="commentSubmit"
-    @submit.prevent="addComment"
+    @submit.prevent="addComment()"
     v-if="!(imgsrc.split(`=`).pop() == `undefined`)"
   >
     <img class="comment-avatar" :src="imgsrc" />
@@ -24,8 +24,7 @@
       <button class="commentButton" type="submit">发表评论</button>
     </template>
   </form>
-  <form class="commentSubmit" @submit.prevent="addComment" v-else>
-    <!-- <img class="comment-avatar" :src="imgsrc" /> -->
+  <form class="commentSubmit" @submit.prevent="addComment()" v-else>
     <input
       class="commentInput"
       type="text"
@@ -46,18 +45,20 @@
 <script setup>
 import { ref, defineEmits, defineProps } from "vue";
 import getUserImage from "../user/userEffect";
+import { postComments } from "../../utils/request";
 const props = defineProps({
   replyNick: String,
   replyId: Number,
   showReplyId: Number,
   isTop: Boolean,
+  videoId: String,
+  replyUserId: Number,
+  rootId: Number,
 });
-console.log(props.replyNick);
 
 const imgsrc = ref("");
 
 const newComment = ref("");
-// const newReply = ref("");
 // eslint-disable-next-line no-unused-expressions
 !(async function () {
   const result = await getUserImage();
@@ -71,47 +72,22 @@ const emits = defineEmits(["addCom"]);
 const addComment = () => {
   if (newComment.value.trim() !== "") {
     const comment = {
-      childList: [],
+      videoId: props.videoId,
       comment: newComment.value.trim(),
-      createTime: "",
-      id: 11,
-      replyUserId: null,
-      replyUserInfo: null,
-      rootId: null,
-      updateTime: null,
-      userId: 12,
-      userInfo: {
-        avatar: "M00/00/00/CvEH62Rt0y6AcQ7oAAAOhwbRtA0636.jpg",
-        birth: "1999-10-01",
-        createTime: "2023-03-20 14:15:07",
-        followed: null,
-        gender: "0",
-        id: 11,
-        nick: "admin",
-        sign: "我爱学习",
-        updateTime: null,
-        userId: 12,
-      },
+      replyUserId: props.replyUserId,
+      rootId: props.rootId,
     };
-    // comments.value.push({
-    //   author: "匿名用户",
-    //   text: newComment.value,
-    //   replies: [],
-    // });
-    emits("addCom", comment);
-    newComment.value = "";
+    console.log("rootId", comment.rootId);
+    console.log("replyUserId", comment.replyUserId);
+    // eslint-disable-next-line no-unused-expressions
+    !(async function () {
+      const result = await postComments("/api/video-comments", comment);
+      emits("addCom", comment);
+      console.log(result);
+      newComment.value = "";
+    })();
   }
 };
-
-// const addReply = (commentIndex) => {
-//   if (newReply.value.trim() !== "") {
-//     comments.value[commentIndex].replies.push({
-//       author: "匿名用户",
-//       text: newReply.value,
-//     });
-//     newReply.value = "";
-//   }
-// };
 </script>
 <style scoped lang="scss">
 .commentSubmit {
@@ -145,9 +121,6 @@ const addComment = () => {
     background: none;
     outline: none;
     border: none;
-
-    // outline: 3px solid aqua;
-    // box-shadow: 1px 1px 10px 1px aqua;
   }
 
   .commentUser {

@@ -26,10 +26,6 @@ export default {
 
   setup(props) {
     const { toastData } = useToastEffect();
-    // watch(props.videoId, (newValue, oldValue) => {
-    //   console.log("changed");
-    // });
-
     const close = function () {
       store.commit("closeIsShowCollect");
     };
@@ -44,7 +40,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  z-index: 8;
+  z-index: 30;
   padding: 5.2rem 6.5rem;
   position: absolute;
   top: 50%;

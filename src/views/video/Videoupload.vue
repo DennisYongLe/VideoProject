@@ -4,8 +4,6 @@
     <div class="microapp">
       <div class="microapp__uploadForm">
         <input class="microapp" type="file" @change="handleFileChange" />
-        <!-- <el-button @click="handleUpload">上传</el-button> -->
-        <!-- <el-button>上传</el-button> -->
       </div>
     </div>
     <div class="microapp firstline">
@@ -28,9 +26,6 @@
         <input type="radio" id="other" name="type" value="2" v-model="types" />
         <label for="other">转载</label>
       </div>
-
-      <!-- <span class="microapp__modelinput iconfont">&#xe6d0;</span> -->
-      <!-- <span class="microapp__modelinput iconfont">&#xe833;</span> -->
     </div>
     <div class="microapp">
       <span class="microapp__divide">分区</span>
@@ -177,9 +172,7 @@ export default {
           const slice = new File([i.chunk], fileName, {});
 
           const formData = new FormData();
-          // formData.append("fileMd5", i.hash.split("-")[0]);
           formData.append("fileMd5", fixedHash);
-
           formData.append("sliceNo", +i.hash.split("-")[1] + 1);
           formData.append("totalSliceNo", totalSliceNo);
           formData.append("slice", slice);
@@ -211,7 +204,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  // margin: 1.2rem 3rem 0 0;
   margin: 0 0 0 3.2rem;
   min-width: 90rem;
   display: flex;

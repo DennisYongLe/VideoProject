@@ -9,19 +9,25 @@
 
     <VideoPlayer :videoSrc="videoSRC" :videoId="videoId" />
     <!-- <video controls class="left__video-wrap" :src="videoSRC" /> -->
+    {{ leftInfo.openrationCount.likes }}
+    {{ Videolikes }}
     <div class="video-toolbar-v1">
-      <span class="video-toolbar-v1__like active"
-        >点赞{{ leftInfo.openrationCount.likes }}</span
-      >
-
-      <span class="video-toolbar-v1__coin"
+      <template v-if="leftInfo.openrationCount.likes">
+        <span class="video-toolbar-v1__like likeactive" @click="dislikeVideo"
+          >点赞</span
+        >
+      </template>
+      <template v-else>
+        <span class="video-toolbar-v1__like" @click="likeVideo">点赞</span>
+      </template>
+      <span class="video-toolbar-v1__coin" @click="giveCoin"
         >投币{{ leftInfo.openrationCount.coins }}</span
       >
       <span class="video-toolbar-v1__collect" @click="changeIsShowCollect"
         >收藏{{ leftInfo.openrationCount.collections }}</span
       >
     </div>
-    <Suspense><Videocomment /></Suspense>
+    <Suspense><Videocomment :videoId="videoId" /></Suspense>
   </div>
 </template>
 <script>
@@ -31,6 +37,11 @@ import Collection from "../collection/Collection.vue";
 import store from "@/store";
 import VideoPlayer from "./VideoPlayer.vue";
 import Videocomment from "./VideoComment.vue";
+import {
+  postVideolike,
+  dislikeVideolike,
+  getVideolike,
+} from "../../utils/request";
 export default {
   name: "videomoddle",
   components: { Collection, VideoPlayer, Videocomment },
@@ -42,13 +53,33 @@ export default {
     const videoId = ref(leftInfo.value.id);
 
     const videoSRC = ref("/api/video-slices?url=" + leftInfo.value.url);
-
+    const Videolikes = await getVideolike("/api/video-likes", { videoId });
+    console.log(Videolikes);
     const userToken = store.state.userToken;
     const changeIsShowCollect = async function () {
       if (userToken) {
         store.commit("changeIsShowCollect");
       } else {
         store.commit("changeIsShowLogin");
+      }
+    };
+    const giveCoin = function () {};
+
+    const likeVideo = async function () {
+      const result = await postVideolike("/api/video-likes", { videoId });
+      if (result.status === 200) {
+        console.log("点赞成功");
+      } else {
+        console.log("点赞失败");
+      }
+    };
+    const dislikeVideo = async function () {
+      const result = await dislikeVideolike("/api/video-likes", { videoId });
+
+      if (result.status === 200) {
+        console.log("取消点赞成功");
+      } else {
+        console.log("取消点赞失败");
       }
     };
     const danmus = ref(["danmu1", "danmu2", "danmu3", "danmu3", "..."]);
@@ -60,6 +91,10 @@ export default {
       changeIsShowCollect,
       danmus,
       loop,
+      giveCoin,
+      likeVideo,
+      dislikeVideo,
+      Videolikes,
     };
   },
 };
@@ -110,6 +145,9 @@ export default {
       color: #61666d;
     }
     span:hover {
+      color: #00aeec;
+    }
+    .likeactive {
       color: #00aeec;
     }
   }

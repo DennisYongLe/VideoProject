@@ -6,9 +6,11 @@ const getUserImage = async function (params) {
     localStorage.removeItem("usertoken");
     return null;
   }
-
-  const imgSRC = "/api/users-avatar?url=" + result?.data?.userInfo?.avatar;
-  return imgSRC;
+  if (result?.data?.userInfo?.avatar) {
+    const imgSRC = "/api/users-avatar?url=" + result?.data?.userInfo?.avatar;
+    return imgSRC;
+  }
+  return null;
 };
 
 export default getUserImage;

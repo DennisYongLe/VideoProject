@@ -1,5 +1,4 @@
 <template>
-  <!-- <Toast v-if="toastData.showToast" :toastMessage="toastData.toastMessage" /> -->
   <div class="item" v-for="i in result" :key="i">
     <div class="icon iconfont" @click="check(i)">
       <template v-if="!i.checked">&#xe67b;</template>

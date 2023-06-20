@@ -1,5 +1,4 @@
 <template>
-  <Suspense> <Videoheader /></Suspense>
   <div class="wrapper">
     <div class="wrapper__left">IN DEVELOPMENT</div>
     <div class="wrapper__right">
@@ -9,9 +8,8 @@
 </template>
 <script>
 import Videoupload from "../video/Videoupload.vue";
-import Videoheader from "../video/Videoheader";
 export default {
-  components: { Videoheader, Videoupload },
+  components: { Videoupload },
   name: "UploadVideo",
   setup() {},
 };

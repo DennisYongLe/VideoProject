@@ -29,20 +29,39 @@
     <div class="bui-collapse-wrap">
       <div class="bui-dropdown-display">
         <span class="bui-dropdown-name">弹幕列表</span>
-        <span class="bui-dropdown-icon iconfont">&#xeb10;</span>
+        <span @click="checkAllDanmu" class="bui-dropdown-icon iconfont"
+          >&#xeb10;</span
+        >
       </div>
-      <div class="bui-dropdown-items iconfont">&#xe612;</div>
+      <div @click="showDanmuList = false" class="bui-dropdown-items iconfont">
+        &#xe612;
+      </div>
+    </div>
+    <div class="bui-danmu-wrap" v-if="showDanmuList">
+      <div class="item" v-for="i in danmmu" :key="i.id">
+        <span>{{ i.danmuTime }}</span>
+        <span> {{ i.content }}</span>
+        <span> {{ i.createTime }}</span>
+      </div>
     </div>
     <div class="reco_list">
       <div class="rec-title">我的视频</div>
-      <div class="card-box" v-for="i in showList" :key="i.id">
-        <img class="card-box__img" :src="i.unit__img" />
+      <router-link
+        :to="`/video/${i.id}`"
+        class="card-box"
+        v-for="i in showList"
+        :key="i.id"
+      >
+        <img
+          class="card-box__img"
+          src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?"
+        />
         <div class="card-box__right">
           <div class="card-box__right__topline fontstyle">
-            <span class="description">{{ i.card__info__tit }}</span>
+            <span class="description">{{ i.title }}</span>
           </div>
           <div class="card-box__right__middleline fontstyle">
-            <span class="description">{{ i.upName }}</span>
+            <span class="description">{{ i.description }}</span>
           </div>
           <div class="card-box__right__btn-panel fontstyle">
             <div class="btn-panel">
@@ -50,54 +69,39 @@
             </div>
           </div>
         </div>
-      </div>
+      </router-link>
+      <router-view />
     </div>
   </div>
 </template>
 <script>
-import { getUserInfoById } from "@/utils/request";
-// import store from "@/store";
-// import { toRef, toRefs, watch, ref, reactive } from "vue";
-import getVideoInfo from "../user/videoEffect";
+import { getUserInfoById, getDanmuById } from "@/utils/request";
+import getVideoInfo, { videoInfoEffect } from "../user/videoEffect";
 import { ref, reactive, toRefs } from "vue";
-// const userInfoEffect = async function () {
-//   //   const login = toRef(store.state, "userToken");
-//   const imgSRC = ref("");
-//   // 获取视频对应的用户id
-//   const result = await getVideoInfo();
-
-//   const userId = result.result.data.upInfo.userInfo.userId;
-
-//   // 获取用户所有信息
-//   const getUserInfo = async function () {
-//     const result = await getUserInfoById("/api/user-id", { upUserId: userId });
-
-//     // const nick sign followed
-//     imgSRC.value = "/api/users-avatar?url=" + result.data.data.userInfo.avatar;
-
-//     return result.data.data;
-//   };
-
-//   const userInfoData = await getUserInfo();
-//   return { userInfoData, imgSRC };
-// };
 export default {
   name: "VideoRight",
   async setup() {
-    //   const login = toRef(store.state, "userToken");
     const imgSRC = ref("");
     // 获取视频对应的用户id
     const result = await getVideoInfo();
-
+    const videoId = result.result.data.id;
+    const danmmu = ref([]);
     const userId = result.result.data.upInfo.userInfo.userId;
+    const showDanmuList = ref(false);
+    const checkAllDanmu = async function () {
+      showDanmuList.value = true;
 
+      const result = await getDanmuById("/api/danmus", {
+        videoId: videoId,
+      });
+      danmmu.value = result.data;
+    };
     // 获取用户所有信息
     const getUserInfo = async function () {
       const result = await getUserInfoById("/api/user-id", {
         upUserId: userId,
       });
 
-      // const nick sign followed
       imgSRC.value =
         "/api/users-avatar?url=" + result.data.data.userInfo.avatar;
 
@@ -106,52 +110,22 @@ export default {
 
     const userInfoData = await getUserInfo();
 
+    const { getvideoInfo } = videoInfoEffect();
+    const videoInfo = await getvideoInfo();
+    let videoInfoList = ref(videoInfo.data.list);
     let data = reactive({
       upInfo: {
         nick: userInfoData?.userInfo?.nick || "",
         sign: userInfoData?.userInfo?.sign || "",
         followed: userInfoData?.userInfo?.followed || "",
       },
-      showList: [
-        {
-          id: "1",
-          unit__img:
-            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-          card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-          upName: "夏宇",
-        },
-        {
-          id: "2",
-          unit__img:
-            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-          card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-          upName: "夏宇",
-        },
-        {
-          id: "3",
-          unit__img:
-            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-          card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-          upName: "夏宇",
-        },
-        {
-          id: "4",
-          unit__img:
-            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-          card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-          upName: "夏宇",
-        },
-        {
-          id: "5",
-          unit__img:
-            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4d383cb6d40e4d98af97bf44be31714d~tplv-k3u1fbpfcp-watermark.image?",
-          card__info__tit: "Maria乘风初舞台《极乐净土》 今夕是何年？",
-          upName: "夏宇",
-        },
-      ],
+      showList: videoInfoList.value,
     });
     const { showList, upInfo } = toRefs(data);
-    return { showList, upInfo, imgSRC };
+    // for (let i of showList.value) {
+    //   console.log(i);
+    // }
+    return { showList, upInfo, imgSRC, checkAllDanmu, showDanmuList, danmmu };
   },
 };
 </script>
@@ -220,6 +194,7 @@ export default {
     }
   }
   .bui-collapse-wrap {
+    min-width: 43rem;
     background-color: #f1f2f3af;
     border-radius: 6px;
     min-height: 4.4rem;
@@ -238,12 +213,27 @@ export default {
       margin-right: 1rem;
     }
   }
+  .bui-danmu-wrap {
+    background-color: #f1f2f3af;
+    border-radius: 6px;
+    min-height: 4.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    .item {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: center;
+    }
+  }
   .reco_list {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
-    // align-items: center;
     gap: 3px;
     .card-box {
       width: 100%;

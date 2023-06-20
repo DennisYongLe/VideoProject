@@ -5,6 +5,44 @@ const instance = axios.create({
   responseType: "json",
   withCredentials: false, // 表示跨域请求时是否需要使用凭证
 });
+export const postComments = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("usertoken"),
+        },
+      })
+      .then(
+        (respnse) => {
+          resolve(respnse.data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+export const postVideoLike = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post(url, data, {
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("usertoken"),
+        },
+      })
+      .then(
+        (respnse) => {
+          resolve(respnse.data);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
 export const getComment = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance.get(url, { params }).then(
@@ -18,6 +56,19 @@ export const getComment = (url, params = {}) => {
     );
   });
 };
+export const getDanmuById = (url, params = {}) => {
+  return new Promise((resolve, reject) => {
+    instance.get(url, { params: { videoId: params.videoId } }).then(
+      (respnse) => {
+        resolve(respnse.data);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+};
+
 export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance
@@ -140,7 +191,7 @@ export const postVideos = (url, data = {}) => {
   });
 };
 
-export const postVideoLike = (url, params = {}) => {
+export const postVideolike = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance
       .post(url, params, {
@@ -148,7 +199,7 @@ export const postVideoLike = (url, params = {}) => {
           token: localStorage.getItem("usertoken"),
           "Content-Type": "application/json",
         },
-        body: { videoId: params.videoId, groupId: params.groupId },
+        body: { videoId: params.videoId },
       })
       .then(
         (respnse) => {
@@ -161,22 +212,28 @@ export const postVideoLike = (url, params = {}) => {
       );
   });
 };
-// export const getDanmu = (url, params = {}) => {
-//   return new Promise((resolve, reject) => {
-//     instance
-//       .get(url, {
-//         params: { videoId: params.videoId },
-//       })
-//       .then(
-//         (respnse) => {
-//           resolve(respnse);
-//         },
-//         (err) => {
-//           reject(err);
-//         }
-//       );
-//   });
-// };
+export const dislikeVideolike = (url, params = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .delete(url, params, {
+        headers: {
+          token: localStorage.getItem("usertoken"),
+          "Content-Type": "application/json",
+        },
+        body: { videoId: params.videoId },
+      })
+      .then(
+        (respnse) => {
+          console.log(respnse);
+          resolve(respnse);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+
 export const getDanmu = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     instance
@@ -196,6 +253,27 @@ export const getDanmu = (url, params = {}) => {
       );
   });
 };
+export const getVideolike = (url, data = {}) => {
+  return new Promise((resolve, reject) => {
+    instance
+      .get(url, {
+        headers: {
+          token: localStorage.getItem("usertoken"),
+        },
+        params: { videoId: data.videoId.value },
+      })
+      .then(
+        (respnse) => {
+          console.log(respnse);
+          resolve(respnse);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+  });
+};
+
 export const postVideoFile = (url, data = {}) => {
   return new Promise((resolve, reject) => {
     instance

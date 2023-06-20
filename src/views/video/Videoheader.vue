@@ -57,6 +57,7 @@ export default {
     // 页面刷新后，token无变化，也立即显示照片
     const result = await getUserImage();
     if (result) {
+      console.log(result);
       imgSRC.value = result;
     } else {
       console.log("未登录");

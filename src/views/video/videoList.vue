@@ -27,29 +27,14 @@
 </template>
 <script>
 import { ref } from "vue";
-import { getWithoutToken } from "@/utils/request";
-const videoInfoEffect = function () {
-  const getvideoInfo = async function () {
-    const result = await getWithoutToken("/api/videos", {
-      size: 100,
-      no: 1,
-      area: 1,
-    });
-    return result.data;
-  };
-  return { getvideoInfo };
-};
+import { videoInfoEffect } from "../user/videoEffect";
 export default {
   name: "videoList",
   async setup() {
     const { getvideoInfo } = videoInfoEffect();
     const result = await getvideoInfo();
     let videoInfo = ref(result.data.list);
-
     const showList = videoInfo.value;
-    for (const a of showList) {
-      console.log(a);
-    }
     return { showList };
   },
 };

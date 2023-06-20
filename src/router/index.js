@@ -41,7 +41,7 @@ const routes = [
     path: "/video/:id",
     name: "video",
     component: () =>
-      import(/* webpackChunkName: "register" */ "../views/video/video.vue"),
+      import(/* webpackChunkName: "register" */ "../views/video/Video.vue"),
   },
   {
     path: "/login",
