@@ -7,9 +7,8 @@
   </div>
 </template>
 <script>
-import VideoRight from "./videoRight.vue";
-
 import VideoLeft from "./VideoLeft.vue";
+import VideoRight from "./videoRight.vue";
 export default {
   components: { VideoRight, VideoLeft },
   setup() {},

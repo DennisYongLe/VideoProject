@@ -26,8 +26,8 @@
   </div>
 </template>
 <script>
-import { ref } from "vue";
 import { videoInfoEffect } from "../user/videoEffect";
+import { ref } from "vue";
 export default {
   name: "videoList",
   async setup() {
