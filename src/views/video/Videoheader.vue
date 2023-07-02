@@ -1,4 +1,10 @@
 <template>
+  <source
+    sizes="(max-width: 640px) 100vw, 640px"
+    srcSet="../../style/resourcs/background.avif 1280w"
+    type="image/avif"
+  />
+  <source />
   <div class="i_cecream__bili-header">
     <div class="i_cecream__bili-header__bar">
       <ul class="left-entry">
@@ -70,8 +76,9 @@ export default {
 <style scoped lang="scss">
 .i_cecream {
   &__bili-header {
+    background: url("../../style/resource/back.png");
     width: 100%;
-    height: 6rem;
+    height: 15rem;
     background-color: rgba(165, 38, 38, 0.29);
     display: flex;
     &__bar {
